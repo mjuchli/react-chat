@@ -1,0 +1,5 @@
+cs176b_ratchet:
+    resource: "@cs176bRatchetBundle/Controller/"
+    type:     annotation
+    prefix:   /ratchet/
+
