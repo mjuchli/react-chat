@@ -11,3 +11,27 @@ web/bundles/*
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
+
+.idea/.name
+
+*.lock
+
+.idea/encodings.xml
+
+.idea/frameworkRootSettings.xml
+
+.idea/misc.xml
+
+.idea/modules.xml
+
+.idea/react-chat.iml
+
+.idea/scopes/scope_settings.xml
+
+.idea/vcs.xml
+
+.idea/workspace.xml
+
+composer.phar
+
+composer.lock
