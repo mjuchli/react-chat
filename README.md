@@ -1,9 +1,11 @@
 Message Board using Ratchet and ZeroMQ
 ==========
 
-This first part of the readme is just for explaination purposes to show how to send messages directly based on Websockets using React (Ratchet).
+Checkout application and create a virtualhost pointing to the `/web` directory: `react.local` 
 
-Checkout application and create a virtualhost pointing to the /web directory: react.local 
+---
+
+This first part of the readme is just for explaination purposes to show how to send messages directly based on Websockets using React (Ratchet).
 
 Start server (on port 9090): 
 
@@ -37,7 +39,7 @@ conn.send(' -type your message here- ');
 
 ## Demo message board including React (Ratchet) and ZeroMQ
 
-Now lets push interactions from HTTP to Websocket using ZeroMQ. Therefore checkout the application and create a virtualhost pointing to the `/web` directory: `react.local`
+Now lets push interactions from HTTP to Websocket using ZeroMQ.
 
 Start server (on port 9090): 
 
