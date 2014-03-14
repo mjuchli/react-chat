@@ -27,6 +27,12 @@ class RatchetChat implements MessageComponentInterface {
 
         echo "New connection! ({$conn->resourceId})\n";
     }
+    //public function send() {
+    //
+    //    conn.send('$msg');
+    //    }
+    //
+
 
     public function onMessage(ConnectionInterface $from, $msg) {
         $numRecv = count($this->clients) - 1;

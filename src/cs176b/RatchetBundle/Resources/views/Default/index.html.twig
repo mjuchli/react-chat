@@ -3,6 +3,7 @@
 {% block container %}
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 <style xmlns="http://www.w3.org/1999/html">
     .conversation-wrap
@@ -205,6 +206,12 @@
             $('.msg-wrap').append("<div class='media msg'><div class='media-body'><small class='pull-right time'><i class='fa fa-clock-o'></i> {{ "now"|date("m/d/Y - H:i") }}</small><h5 class='media-heading'>Morten Eriksen</h5><small class='col-lg-10'>" + e.data + "</small></div></div>");
         };
         </script>
+
+
+
+
+
+
 
         <div class="message-wrap col-lg-8">
             <div class="msg-wrap">
