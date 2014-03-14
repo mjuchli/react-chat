@@ -3,6 +3,7 @@
 namespace cs176b\RatchetBundle\Controller;
 
 use cs176b\RatchetBundle\Form\Type\ChatType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,10 +18,20 @@ use \ZMQ;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      * @Template()
      */
     public function indexAction(Request $request)
+    {
+        return array();
+
+    }
+
+    /**
+     * @Route("/yetAnotherForm", name="form_message_create")
+     * @Template()
+     */
+    public function yetAnotherFormAction(Request $request)
     {
         $form = $this->createForm(new ChatType());
 
@@ -28,12 +39,12 @@ class DefaultController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
+                $formData = $form->getData();
 
-                $context = new ZMQContext();
-                $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
-                $socket->connect("tcp://localhost:5555");
+                $name = $formData['name'];
+                $message = $formData['message'];
 
-                $socket->send(json_encode($form->getData()));
+                $this->postToQueue(array($name, $message));
 
                 $form = $this->createForm(new ChatType()); //clear form
             }
@@ -45,12 +56,30 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/test")
+     * @Route("/post", name="message_create")
      * @Template()
      */
-    public function testAction()
+    public function postAction(Request $request)
     {
-        return array('test' => 'test');
+        if ($request->getMethod() == 'POST') {
+            $name = $request->request->get('name');
+            $message = $request->request->get('message');
+
+            $this->postToQueue(array($name, $message));
+
+            return new Response($name.': '.$message);
+        }
+
+        return new Response('no message');
 
     }
+
+    private function postToQueue($message){
+        $context = new ZMQContext();
+        $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+        $socket->connect("tcp://localhost:5555");
+        $socket->send(json_encode($message));
+    }
+
+
 }

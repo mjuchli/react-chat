@@ -22,7 +22,9 @@ class ChatType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('message');
+        $builder
+            ->add('name')
+            ->add('message', 'textarea');
     }
 
     /**

@@ -30,12 +30,9 @@ class Pusher implements WampServerInterface {
     /**
      * @param string JSON'ified string we'll receive from ZeroMQ
      */
-    public function onBlogEntry($entry) {
+    public function onMessage($entry) {
         $entryData = json_decode($entry, true);
-
-        $topic = $this->subscribedTopics['kittensCategory'];
-
-        // re-send the data to all the clients subscribed to that category
+        $topic = $this->subscribedTopics['category1'];
         $topic->broadcast($entryData);
     }
 
@@ -47,7 +44,6 @@ class Pusher implements WampServerInterface {
      */
     function onOpen(ConnectionInterface $conn)
     {
-        // TODO: Implement onOpen() method.
     }
 
     /**
@@ -57,7 +53,6 @@ class Pusher implements WampServerInterface {
      */
     function onClose(ConnectionInterface $conn)
     {
-        // TODO: Implement onClose() method.
     }
 
     /**
@@ -69,7 +64,6 @@ class Pusher implements WampServerInterface {
      */
     function onError(ConnectionInterface $conn, \Exception $e)
     {
-        // TODO: Implement onError() method.
     }
 
     /**
@@ -81,7 +75,6 @@ class Pusher implements WampServerInterface {
      */
     function onCall(ConnectionInterface $conn, $id, $topic, array $params)
     {
-        // TODO: Implement onCall() method.
     }
 
     /**
@@ -91,7 +84,6 @@ class Pusher implements WampServerInterface {
      */
     function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
-        // TODO: Implement onUnSubscribe() method.
     }
 
     /**
@@ -104,6 +96,5 @@ class Pusher implements WampServerInterface {
      */
     function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
     {
-        // TODO: Implement onPublish() method.
     }
 }

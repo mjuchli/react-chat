@@ -188,29 +188,8 @@
                     <h5 class="media-heading">Marc Juchli</h5>
                     <small>Shut up</small>
                 </div>
-
-
             </div>
-
-
         </div>
-
-        <script type="text/javascript">
-        var conn = new WebSocket('ws://localhost:9090');
-        conn.onopen = function(e) {
-        console.log("Connection established!");
-        };
-
-        conn.onmessage = function(e) {
-            console.log(e.data);
-            $('.msg-wrap').append("<div class='media msg'><div class='media-body'><small class='pull-right time'><i class='fa fa-clock-o'></i> {{ "now"|date("m/d/Y - H:i") }}</small><h5 class='media-heading'>Morten Eriksen</h5><small class='col-lg-10'>" + e.data + "</small></div></div>");
-        };
-        </script>
-
-
-
-
-
 
 
         <div class="message-wrap col-lg-8">
@@ -220,17 +199,59 @@
             </div>
 
             <div class="send-wrap ">
-                {{ form(form) }}
-
-                <textarea class="form-control send-message" rows="3" placeholder="Write a reply..."></textarea>
-
-
+                <form id="chatForm" action="{{ path('message_create') }}" method="post">
+                    <input id="name" type="text" name="name" class="form-control send-message" placeholder="Your name..." /><br>
+                    <textarea id="message" name="message" class="form-control send-message" rows="3" placeholder="Write a reply..."></textarea>
+                </form>
             </div>
+
+
             <div class="btn-panel">
-                <a href="" class=" col-lg-3 btn   send-message-btn " role="button"><i class="fa fa-cloud-upload"></i> Add Files</a>
-                <a href="" class=" col-lg-4 text-right btn   send-message-btn pull-right" role="button"><i class="fa fa-plus"></i> Send Message</a>
+                <a id="submitMessage" href="" class=" col-lg-4 text-right btn   send-message-btn pull-right" role="button"><i class="fa fa-plus"></i> Send Message</a>
             </div>
         </div>
     </div>
 </div>
+    <script>
+    $("#submitMessage").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "{{ path('message_create') }}",
+            cache: false,
+            data: $("#chatForm").serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+                console.log("success" + data); // show response from the php script.
+            },
+            error: function(error){
+                console.log("error" + error);
+            }
+        });
+        $("#message").val('');
+        return false;
+    });
+
+    </script>
+
+    <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+    <script>
+        var conn = new ab.Session(
+                'ws://localhost:9090' // The host (our Ratchet WebSocket server) to connect to
+                , function() {            // Once the connection has been established
+                    conn.subscribe('category1', function(topic, data) {
+                        // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        console.log('New article published to category "' + topic + '" : ' + JSON.stringify(data));
+                        $('.msg-wrap').append("<div class='media msg'><div class='media-body'><small class='pull-right time'><i class='fa fa-clock-o'></i> {{ "now"|date("m/d/Y - H:i") }}</small><h5 class='media-heading'>" + data[0] + "</h5><small class='col-lg-10'>" + data[1] + "</small></div></div>");
+                    });
+                }
+                , function() {            // When the connection is closed
+                    console.warn('WebSocket connection closed');
+                }
+                , {                       // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
+                    'skipSubprotocolCheck': true
+                }
+        );
+    </script>
+
+
 {% endblock %}
